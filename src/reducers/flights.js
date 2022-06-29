@@ -3,11 +3,13 @@ import { createReducer } from "@reduxjs/toolkit";
 import {
     flightsFetching,
     flightsFetched,
-    flightsFetchingError
+    flightsFetchingError,
+    filtredFlightsChange
 } from '../actions';
 
 const initialState = {
     flights: [],
+    filtredFlights: [],
     flisghtsLoadingStatus: 'idle',
     flightsIndex: 5,
 }
@@ -18,7 +20,8 @@ const flights = createReducer(initialState, {
         state.flights = action.payload;
         state.flisghtsLoadingStatus = 'idle';
     },
-    [flightsFetchingError]: state => {state.flisghtsLoadingStatus = 'error'}
+    [flightsFetchingError]: state => {state.flisghtsLoadingStatus = 'error'},
+    [filtredFlightsChange]: (state, action) => {state.filtredFlights = action.payload}
 },
 [],
 state => state)

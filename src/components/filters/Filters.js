@@ -17,10 +17,13 @@ const Filters = () => {
     const dispatch = useDispatch();
 
     const flights = useSelector(state => state.flights.flights);
+    const filtredFlights = useSelector(state => state.flights.filtredFlights)
     const flighstsLoadingStatus = useSelector(state => state.flights.flighstsLoadingStatus);
 
     const oneTransfer = useSelector(state => state.filters.OneTransfer);
     const noTransfer = useSelector(state => state.filters.NoTransfer);
+
+    const companyFilter = useSelector(state => state.filters.companyFilter);
 
     const MaxPriceHandler = (e) => {
         if(e.target.value === '') {
@@ -47,9 +50,9 @@ const Filters = () => {
     const createCompanyFilterSet = (flights) => {
         const companies = [];
 
-        flights.map((flight) => {
-            flight.legs.map((leg) => {
-                companies.push(leg.company)
+        flights.forEach((flight) => {
+            flight.legs.forEach((leg) => {
+                companies.push(leg.company);
             })
         })
         
@@ -61,7 +64,7 @@ const Filters = () => {
     const findMinPrice = (company) => {
         let filtredFlights = flights.filter(flight => flight.legs[0].company === company || flight.legs[1].company === company);
         let min = + filtredFlights[0].price;
-        filtredFlights.map((flight) => {
+        filtredFlights.forEach((flight) => {
             if(+flight.price <= min) {
                 min = +flight.price;
             }
@@ -79,14 +82,14 @@ const Filters = () => {
 
             return(
                 <div key={i}>
-                    <input type="checkbox" onChange={() => {CompanyFilterHandler(item)}}/>
+                    <input type="checkbox" onChange={() => {CompanyFilterHandler(item)}} checked={companyFilter.includes(item)}/>
                     <label htmlFor="compony1">- {slicedItem} от {findMinPrice(item)} р.</label>
                 </div>
             )
         })
     }
 
-    const elements = renderCompanyFilter(createCompanyFilterSet(flights));
+    const elements = renderCompanyFilter(createCompanyFilterSet(filtredFlights));
 
     return(
         <div className="filters__container">

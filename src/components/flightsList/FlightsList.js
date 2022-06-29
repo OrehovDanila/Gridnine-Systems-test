@@ -4,7 +4,7 @@ import useServer from '../../services/ServerService';
 
 import './flightList.scss'
 
-import { fetchFlights } from '../../actions';
+import { fetchFlights, filtredFlightsChange } from '../../actions';
 import FlightsListItem from '../flightListItem/FlightListItem';
 
 const comparePriceIncrease = (a, b) => {
@@ -50,12 +50,13 @@ const FlightList = () => {
 
     const flights = useSelector(state => state.flights.flights);
     const flisghtsLoadingStatus = useSelector(state => state.flights.flisghtsLoadingStatus);
-    const flightsIndex = useSelector(state => state.flights.flightsIndex);
+    //const flightsIndex = useSelector(state => state.flights.flightsIndex);
     const OneTransfer = useSelector(state => state.filters.OneTransfer);
     const NoTransfer = useSelector(state => state.filters.NoTransfer);
     const sorting = useSelector(state => state.filters.sorting);
     const minPrice = useSelector(state => state.filters.minPrice);
     const maxPrice = useSelector(state => state.filters.maxPrice);
+    const companyFilter = useSelector(state => state.filters.companyFilter);
 
     useEffect(() => {
         dispatch(fetchFlights(getFlights));
@@ -92,8 +93,18 @@ const FlightList = () => {
         filtredFlights = filtredFlights.filter(flight => flight.price > minPrice);
         filtredFlights = filtredFlights.filter(flight => flight.price < maxPrice);
 
+        if(companyFilter){
+            for( let filter of companyFilter){
+                filtredFlights = filtredFlights.filter(flight => flight.legs[0].company === filter || flight.legs[1].company === filter)
+            }
+        }
+
+
+        dispatch(filtredFlightsChange(filtredFlights));
+
         return filtredFlights;
-    },[flights, OneTransfer, NoTransfer, sorting, minPrice, maxPrice])
+        // eslint-disable-next-line
+    },[flights, OneTransfer, NoTransfer, sorting, minPrice, maxPrice, companyFilter]);
 
 
     if(flisghtsLoadingStatus === 'loading'){

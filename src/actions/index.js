@@ -17,3 +17,4 @@ export const filterNoTransferChanged = createAction('FILTER_NO_TRANSFER_CHANGED'
 export const filterMaxPriceChanged = createAction('FILTER_MAX_PRICE_CHANGED');
 export const filterMinPriceChanged = createAction('FILTER_MIN_PRICE_CHANGED');
 export const filterCompanyFilterChanged = createAction('FILTER_COMPANY_FILTER_CHANGED');
+export const filtredFlightsChange = createAction('FILTRED_FLIGHTS_CHANGED');
