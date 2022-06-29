@@ -10,3 +10,10 @@ export const fetchFlights = (getFlights) => (dispatch) => {
         .then(data => dispatch(flightsFetched(data)))
         .catch(() => dispatch(flightsFetchingError()))
 }
+
+export const filterSortingChanged = createAction('FILTER_SORTING_CHANGED');
+export const filter1TransferChanged = createAction('FILTER_1_TRANSFER_CHANGED');
+export const filterNoTransferChanged = createAction('FILTER_NO_TRANSFER_CHANGED');
+export const filterMaxPriceChanged = createAction('FILTER_MAX_PRICE_CHANGED');
+export const filterMinPriceChanged = createAction('FILTER_MIN_PRICE_CHANGED');
+export const filterCompanyFilterChanged = createAction('FILTER_COMPANY_FILTER_CHANGED');
