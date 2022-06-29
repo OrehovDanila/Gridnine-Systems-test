@@ -1,7 +1,7 @@
 const FlightsListItem = ({ price, legs}) => {
 
-    const transistionsLeg1Element = !legs[0].transistion  ? null : legs[0].transistion === 1 ? null : legs[0].transistion === 2 ? <div className="FlightList__item__travel__transfer">{legs[0].transistion - 1} пересадка</div> : legs[0].transistion === 3 ? <div className="FlightList__item__travel__transfer">{legs[0].transistion - 1} пересадки</div> : null;
-    const transistionsLeg2Element = !legs[1].transistion  ? null : legs[1].transistion === 1 ? null : legs[1].transistion === 2 ? <div className="FlightList__item__travel__transfer">{legs[1].transistion - 1} пересадка</div> : legs[1].transistion === 3 ? <div className="FlightList__item__travel__transfer">{legs[1].transistion - 1} пересадки</div> : null;
+    const transistionsLeg1Element = !legs[0].transistion  ? null : legs[0].transistion === 1 ? <div className="FlightList__item__travel__transfer"> Без пересадок</div> : legs[0].transistion === 2 ? <div className="FlightList__item__travel__transfer">{legs[0].transistion - 1} пересадка</div> : legs[0].transistion === 3 ? <div className="FlightList__item__travel__transfer">{legs[0].transistion - 1} пересадки</div> : null;
+    const transistionsLeg2Element = !legs[1].transistion  ? null : legs[1].transistion === 1 ? <div className="FlightList__item__travel__transfer"> Без пересадок</div> : legs[1].transistion === 2 ? <div className="FlightList__item__travel__transfer">{legs[1].transistion - 1} пересадка</div> : legs[1].transistion === 3 ? <div className="FlightList__item__travel__transfer">{legs[1].transistion - 1} пересадки</div> : null;
 
     
     const transformMonth = (month) => {

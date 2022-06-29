@@ -60,7 +60,6 @@ const Filters = () => {
 
     const findMinPrice = (company) => {
         let filtredFlights = flights.filter(flight => flight.legs[0].company === company || flight.legs[1].company === company);
-        console.log(filtredFlights)
         let min = + filtredFlights[0].price;
         filtredFlights.map((flight) => {
             if(+flight.price <= min) {
