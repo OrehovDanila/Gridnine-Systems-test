@@ -1,131 +1,54 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import useServer from '../../services/ServerService';
+
 import './flightList.scss'
 
+import { fetchFlights } from '../../actions';
+import FlightsListItem from '../flightListItem/FlightListItem';
+
 const FlightList = () => {
+
+    const { getFlights } = useServer();
+    const dispatch = useDispatch();
+
+    const flights = useSelector(state => state.flights.flights);
+    const flisghtsLoadingStatus = useSelector(state => state.flights.flisghtsLoadingStatus);
+    const flightsIndex = useSelector(state => state.flights.flightsIndex);
+
+    useEffect(() => {
+        dispatch(fetchFlights(getFlights));
+        // eslint-disable-next-line
+    }, []);
+
+    if(flisghtsLoadingStatus === 'loading'){
+        return(
+            <div className="FlightList">
+                <h4>Загрузка перелётов</h4>
+            </div>
+        )
+    } else if( flisghtsLoadingStatus === 'error' ){
+        return(
+            <div className="FlightList">
+                <h4>Ошибка загрузки</h4>
+            </div>
+        )
+    }
+
+    const renderFlights = (arr) => {
+        return arr.map(({id, ...props}) => {
+            return(
+                <FlightsListItem key={id} {...props}/>
+            )
+        });
+    }
+
+    const elements = renderFlights(flights);
+
     return(
         <div>
             <div className="FlightList">
-                <div className="FlightList__item">
-                    <div className="FlightList__item__header">
-                        <div className="FlightList__item__header__price">21049 Р</div>
-                        <div className="FlightList__item__header__title">Стоимость для одного взрослого пасажира</div>
-                    </div>
-                    <div className="FlightList__item__travel FlightList__item__travel_first">
-                        <div className="FlightList__item__travel__airports">
-                            <div className="FlightList__item__travel__departure">
-                                Москва, Шереметьево <u>(SVO)</u>
-                            </div>
-                            <div className="FlightList__item__travel__destination">
-                                Лондон, Лондон, Хитроу <u>(LHR)</u>
-                            </div>
-                        </div>
-                        <div className="FlightList__item__travel__info">
-                            <div className="FlightList__item__travel__info__time">
-                                20:40 <u>18 авг. вт.</u>
-                            </div>
-                            <div className="FlightList__item__travel__info__time">
-                                14 ч 45 мин
-                            </div>
-                            <div className="FlightList__item__travel__info__time">
-                                <u>11 авг. вт.</u> 9:45 
-                            </div>
-                        </div>
-                        <div className="FlightList__item__travel__transfer">
-                            1 пересадка
-                        </div>
-                        <div className="FlightList__item__travel__company">
-                            Рейс выполняет: Lot Polish Airlines
-                        </div>
-                    </div>
-                    <div className="FlightList__item__travel">
-                        <div className="FlightList__item__travel__airports">
-                            <div className="FlightList__item__travel__departure">
-                                Москва, Шереметьево <u>(SVO)</u>
-                            </div>
-                            <div className="FlightList__item__travel__destination">
-                                Лондон, Лондон, Хитроу <u>(LHR)</u>
-                            </div>
-                        </div>
-                        <div className="FlightList__item__travel__info">
-                            <div className="FlightList__item__travel__info__time">
-                                20:40 <u>18 авг. вт.</u>
-                            </div>
-                            <div className="FlightList__item__travel__info__time">
-                                14 ч 45 мин
-                            </div>
-                            <div className="FlightList__item__travel__info__time">
-                                <u>11 авг. вт.</u> 9:45 
-                            </div>
-                        </div>
-                        <div className="FlightList__item__travel__transfer">
-                            1 пересадка
-                        </div>
-                        <div className="FlightList__item__travel__company">
-                            Рейс выполняет: Lot Polish Airlines
-                        </div>
-                    </div>
-                    <button className="FlightList__item__btn">ВЫБРАТЬ</button>
-                </div>
-                <div className="FlightList__item">
-                    <div className="FlightList__item__header">
-                        <div className="FlightList__item__header__price">21049 Р</div>
-                        <div className="FlightList__item__header__title">Стоимость для одного взрослого пасажира</div>
-                    </div>
-                    <div className="FlightList__item__travel FlightList__item__travel_first">
-                        <div className="FlightList__item__travel__airports">
-                            <div className="FlightList__item__travel__departure">
-                                Москва, Шереметьево <u>(SVO)</u>
-                            </div>
-                            <div className="FlightList__item__travel__destination">
-                                Лондон, Лондон, Хитроу <u>(LHR)</u>
-                            </div>
-                        </div>
-                        <div className="FlightList__item__travel__info">
-                            <div className="FlightList__item__travel__info__time">
-                                20:40 <u>18 авг. вт.</u>
-                            </div>
-                            <div className="FlightList__item__travel__info__time">
-                                14 ч 45 мин
-                            </div>
-                            <div className="FlightList__item__travel__info__time">
-                                <u>11 авг. вт.</u> 9:45 
-                            </div>
-                        </div>
-                        <div className="FlightList__item__travel__transfer">
-                            1 пересадка
-                        </div>
-                        <div className="FlightList__item__travel__company">
-                            Рейс выполняет: Lot Polish Airlines
-                        </div>
-                    </div>
-                    <div className="FlightList__item__travel">
-                        <div className="FlightList__item__travel__airports">
-                            <div className="FlightList__item__travel__departure">
-                                Москва, Шереметьево <u>(SVO)</u>
-                            </div>
-                            <div className="FlightList__item__travel__destination">
-                                Лондон, Лондон, Хитроу <u>(LHR)</u>
-                            </div>
-                        </div>
-                        <div className="FlightList__item__travel__info">
-                            <div className="FlightList__item__travel__info__time">
-                                20:40 <u>18 авг. вт.</u>
-                            </div>
-                            <div className="FlightList__item__travel__info__time">
-                                14 ч 45 мин
-                            </div>
-                            <div className="FlightList__item__travel__info__time">
-                                <u>11 авг. вт.</u> 9:45 
-                            </div>
-                        </div>
-                        <div className="FlightList__item__travel__transfer">
-                            1 пересадка
-                        </div>
-                        <div className="FlightList__item__travel__company">
-                            Рейс выполняет: Lot Polish Airlines
-                        </div>
-                    </div>
-                    <button className="FlightList__item__btn">ВЫБРАТЬ</button>
-                </div>
+                {elements}
             </div>
             <button className="FlightList__loadMoreBtn">Показать ещё</button>
         </div>
