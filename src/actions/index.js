@@ -11,6 +11,8 @@ export const fetchFlights = (getFlights) => (dispatch) => {
         .catch(() => dispatch(flightsFetchingError()))
 }
 
+export const flightsIndexChange = createAction('FLIGHTS_INDEX_CHANGE');
+
 export const filterSortingChanged = createAction('FILTER_SORTING_CHANGED');
 export const filter1TransferChanged = createAction('FILTER_1_TRANSFER_CHANGED');
 export const filterNoTransferChanged = createAction('FILTER_NO_TRANSFER_CHANGED');

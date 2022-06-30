@@ -4,7 +4,7 @@ import useServer from '../../services/ServerService';
 
 import './flightList.scss'
 
-import { fetchFlights, filtredFlightsChange } from '../../actions';
+import { fetchFlights, filtredFlightsChange, flightsIndexChange } from '../../actions';
 import FlightsListItem from '../flightListItem/FlightListItem';
 
 const comparePriceIncrease = (a, b) => {
@@ -50,7 +50,7 @@ const FlightList = () => {
 
     const flights = useSelector(state => state.flights.flights);
     const flisghtsLoadingStatus = useSelector(state => state.flights.flisghtsLoadingStatus);
-    //const flightsIndex = useSelector(state => state.flights.flightsIndex);
+    const flightsIndex = useSelector(state => state.flights.flightsIndex);
     const OneTransfer = useSelector(state => state.filters.OneTransfer);
     const NoTransfer = useSelector(state => state.filters.NoTransfer);
     const sorting = useSelector(state => state.filters.sorting);
@@ -129,7 +129,7 @@ const FlightList = () => {
         });
     }
 
-    const elements = renderFlights(filtredFlights);
+    const elements = renderFlights(filtredFlights.slice(0, flightsIndex));
 
     return(
         <div>
@@ -137,7 +137,7 @@ const FlightList = () => {
             <div className="FlightList">
                 {elements}
             </div>
-            <button className="FlightList__loadMoreBtn">Показать ещё</button>
+            <button className="FlightList__loadMoreBtn" onClick={() => dispatch(flightsIndexChange(flightsIndex+10))}>Показать ещё</button>
         </div>
 
     )

@@ -4,14 +4,15 @@ import {
     flightsFetching,
     flightsFetched,
     flightsFetchingError,
-    filtredFlightsChange
+    filtredFlightsChange,
+    flightsIndexChange
 } from '../actions';
 
 const initialState = {
     flights: [],
     filtredFlights: [],
     flisghtsLoadingStatus: 'idle',
-    flightsIndex: 5,
+    flightsIndex: 10,
 }
 
 const flights = createReducer(initialState, {
@@ -21,7 +22,8 @@ const flights = createReducer(initialState, {
         state.flisghtsLoadingStatus = 'idle';
     },
     [flightsFetchingError]: state => {state.flisghtsLoadingStatus = 'error'},
-    [filtredFlightsChange]: (state, action) => {state.filtredFlights = action.payload}
+    [filtredFlightsChange]: (state, action) => {state.filtredFlights = action.payload},
+    [flightsIndexChange]: (state, action) => {state.flightsIndex = action.payload}
 },
 [],
 state => state)
