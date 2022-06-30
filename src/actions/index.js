@@ -1,5 +1,7 @@
 import { createAction } from "@reduxjs/toolkit";
 
+//Группа экшенов связанная с загрузкой и отображением данных
+
 export const flightsFetching = createAction('FLIGHTS_FETCHING');
 export const flightsFetched = createAction('FLIGHTS_FETCHED');
 export const flightsFetchingError = createAction('FLIGHTS_FETCHING_ERROR');
@@ -12,6 +14,8 @@ export const fetchFlights = (getFlights) => (dispatch) => {
 }
 
 export const flightsIndexChange = createAction('FLIGHTS_INDEX_CHANGE');
+
+//Группа экшенов связанная с фильтрами
 
 export const filterSortingChanged = createAction('FILTER_SORTING_CHANGED');
 export const filter1TransferChanged = createAction('FILTER_1_TRANSFER_CHANGED');

@@ -1,6 +1,8 @@
 import { useHttp } from '../hooks/http.hook'
 import { v4 as uuidv4 } from 'uuid';
 
+//Пользовательский хук. Получает данные с сервера и трансформирует их в удобную для отображения форму. Убирает все лишние поля. 
+
 const useServer = () => {
 
     const { request } = useHttp();

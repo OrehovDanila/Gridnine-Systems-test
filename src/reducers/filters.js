@@ -1,5 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 
+//Функции-редюсеры связанные с фильтрами
+
 import {
     filterSortingChanged,
     filter1TransferChanged,

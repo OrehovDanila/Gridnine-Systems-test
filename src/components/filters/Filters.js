@@ -2,7 +2,6 @@ import './filters.scss'
 
 import { useDispatch, useSelector } from 'react-redux';
 
-
 import {
     filterSortingChanged,
     filter1TransferChanged,
@@ -12,7 +11,11 @@ import {
     filterCompanyFilterChanged
 } from '../../actions';
 
+//Компонент с фильтрами. Управляет фильтрами. Фильтры авиокомпаний строяться на основе прочих фильтров включая фильтр авиокомпаний. 
+
 const Filters = () => {
+
+    //Инициализирующий блок
 
     const dispatch = useDispatch();
 
@@ -24,6 +27,8 @@ const Filters = () => {
     const noTransfer = useSelector(state => state.filters.NoTransfer);
 
     const companyFilter = useSelector(state => state.filters.companyFilter);
+
+    //Блок функций для сортировки перелётов
 
     const MaxPriceHandler = (e) => {
         if(e.target.value === '') {
@@ -41,11 +46,15 @@ const Filters = () => {
         dispatch(filterCompanyFilterChanged(company))
     }
 
+    //Блок заглучшка для загрузки данных или ошибки сети
+
     if(flighstsLoadingStatus === 'loading'){
         return <div className="filters__container">Загрузка</div>
     } else if(flighstsLoadingStatus === 'error'){
         return <div className="filters__container">Ошибка</div>
     }
+
+    //Функция которая создаёт сет авиокомпаний
 
     const createCompanyFilterSet = (flights) => {
         const companies = [];
@@ -61,6 +70,8 @@ const Filters = () => {
         return companiesSet;
     }
 
+    //Функция для поиска минимальной цены билета для конкретной авиокомпании
+
     const findMinPrice = (company) => {
         let filtredFlights = flights.filter(flight => flight.legs[0].company === company || flight.legs[1].company === company);
         let min = + filtredFlights[0].price;
@@ -72,8 +83,12 @@ const Filters = () => {
         return min;
     }
 
+    //Функция для рендера фильтров авиаокомапаний
+
     const renderCompanyFilter = (companiesSet) => {
         return Array.from(companiesSet).map((item, i) => {
+
+            //Нужен для обрезания названий 
             let slicedItem;
 
             if(item.length >= 14) {
@@ -90,6 +105,8 @@ const Filters = () => {
     }
 
     const elements = renderCompanyFilter(createCompanyFilterSet(filtredFlights));
+
+    //Рендер
 
     return(
         <div className="filters__container">

@@ -7,6 +7,8 @@ import './flightList.scss'
 import { fetchFlights, filtredFlightsChange, flightsIndexChange } from '../../actions';
 import FlightsListItem from '../flightListItem/FlightListItem';
 
+//Группа функций для сортировки перелётов
+
 const comparePriceIncrease = (a, b) => {
     if(+ a.price > + b.price){
         return 1
@@ -43,7 +45,11 @@ const compareTime = (a, b) => {
     }
 }
 
+//Смарт компонент для загрузки и отображения данных с сервера. По сути, основной компонент приложения. 
+
 const FlightList = () => {
+
+    //Инициализирующий блок
 
     const { getFlights } = useServer();
     const dispatch = useDispatch();
@@ -58,13 +64,19 @@ const FlightList = () => {
     const maxPrice = useSelector(state => state.filters.maxPrice);
     const companyFilter = useSelector(state => state.filters.companyFilter);
 
+    //Хук useEffect без зависимостей получает данные только при загрузке и первом рендере компонента
+
     useEffect(() => {
         dispatch(fetchFlights(getFlights));
         // eslint-disable-next-line
     }, []);
 
+    //Хук useMemo для запоминания отфильтрованных перелётов, что бы ререндерить их при изменении состояния приложения. Зависит как от данных с сервера, так и от фильтров. 
+
     const filtredFlights = useMemo(() => {
         let filtredFlights = flights.slice()
+
+        //Фильтрация по пересадкам
 
         if( !OneTransfer ){
             filtredFlights = filtredFlights.filter(flight => !(flight.legs[0].transistion === 2 && flight.legs[1].transistion === 2));
@@ -73,6 +85,8 @@ const FlightList = () => {
         if( !NoTransfer ){
             filtredFlights = filtredFlights.filter(flight => !(flight.legs[0].transistion === 1 && flight.legs[1].transistion === 1));
         }
+
+        //Сортировка
 
         switch(sorting){
             case 'default':
@@ -90,8 +104,12 @@ const FlightList = () => {
                 break;
         }
 
+        //Фильтрация по максимальной/минимальной цене
+
         filtredFlights = filtredFlights.filter(flight => flight.price > minPrice);
         filtredFlights = filtredFlights.filter(flight => flight.price < maxPrice);
+
+        //Фильтрация по компаниям
 
         if(companyFilter){
             for( let filter of companyFilter){
@@ -99,6 +117,7 @@ const FlightList = () => {
             }
         }
 
+        //Отправка данных в стор для фасеточной фильтрации
 
         dispatch(filtredFlightsChange(filtredFlights));
 
@@ -106,6 +125,8 @@ const FlightList = () => {
         // eslint-disable-next-line
     },[flights, OneTransfer, NoTransfer, sorting, minPrice, maxPrice, companyFilter]);
 
+
+    //Блок с заглушками для загрузки данных и ошибок сервера
 
     if(flisghtsLoadingStatus === 'loading'){
         return(
@@ -121,6 +142,8 @@ const FlightList = () => {
         )
     }
 
+    //Функция для рендера перелётов с помощью дамб клмпонента
+
     const renderFlights = (arr) => {
         return arr.map(({id, ...props}) => {
             return(
@@ -130,6 +153,8 @@ const FlightList = () => {
     }
 
     const elements = renderFlights(filtredFlights.slice(0, flightsIndex));
+
+    //Рендер
 
     return(
         <div>

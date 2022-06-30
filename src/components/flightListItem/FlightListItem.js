@@ -1,9 +1,12 @@
+//Дамб-компонент для отображения карточки перелёта.
+
 const FlightsListItem = ({ price, legs}) => {
 
+    //Переменные для коректного отображения пересадок
     const transistionsLeg1Element = !legs[0].transistion  ? null : legs[0].transistion === 1 ? <div className="FlightList__item__travel__transfer"> Без пересадок</div> : legs[0].transistion === 2 ? <div className="FlightList__item__travel__transfer">{legs[0].transistion - 1} пересадка</div> : legs[0].transistion === 3 ? <div className="FlightList__item__travel__transfer">{legs[0].transistion - 1} пересадки</div> : null;
     const transistionsLeg2Element = !legs[1].transistion  ? null : legs[1].transistion === 1 ? <div className="FlightList__item__travel__transfer"> Без пересадок</div> : legs[1].transistion === 2 ? <div className="FlightList__item__travel__transfer">{legs[1].transistion - 1} пересадка</div> : legs[1].transistion === 3 ? <div className="FlightList__item__travel__transfer">{legs[1].transistion - 1} пересадки</div> : null;
 
-    
+    //функция для корректного отображения месяца
     const transformMonth = (month) => {
         switch(month){
             case 0:
@@ -35,6 +38,7 @@ const FlightsListItem = ({ price, legs}) => {
         }
     }
 
+    //Функция для корректного отображения дня недели
     const transformDay = (day) => {
         switch (day){
             case 0:
@@ -56,12 +60,14 @@ const FlightsListItem = ({ price, legs}) => {
         }
     }
 
+    //Функция для корректного отображения минут
     const transformMinutes = (minutes) => {
         if(minutes < 10 ){
             return ('0' + +minutes)
         } else return minutes
     }
-
+    
+    //Рендер
     return(
         <div className="FlightList__item">
             <div className="FlightList__item__header">

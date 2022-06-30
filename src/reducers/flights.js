@@ -1,5 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 
+//Функции редюсеры связанные с перелётами
+
 import {
     flightsFetching,
     flightsFetched,
