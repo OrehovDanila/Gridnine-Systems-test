@@ -34,7 +34,7 @@ const useServer = () => {
 
         return {
             id: uuidv4(),
-            price: flight.flight.price.totalFeeAndTaxes.amount? flight.flight.price.totalFeeAndTaxes.amount : 'Цена неизвестна',
+            price: flight.flight.price.total.amount? +flight.flight.price.total.amount : 'Цена неизвестна',
             legs: [makeLeg(flight.flight.legs[0]), makeLeg(flight.flight.legs[1])]
         }
     }
